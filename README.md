@@ -1,4 +1,8 @@
-   
+
+    %% Initial Application
+    Start([Customer Applies for Credit Card]) --> SubDocs[Submit Documents:\nName, Address, Income, SSN]
+    SubDocs --> BankRec[Bank Receives Application]
+    
     %% Data Gathering
     subgraph DataSources [Data Sources]
         DS1(Application Data)
