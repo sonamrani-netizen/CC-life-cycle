@@ -278,7 +278,7 @@ flowchart TD
     classDef metrics fill:#e1bee7,stroke:#8e24aa,stroke-width:2px;
     
     %% Base Node Box styling
-    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
+    classDef default fill:#636363,stroke:#333,stroke-width:1px;
 
     %% Apply Status Classes
     class F,F1 reject;
