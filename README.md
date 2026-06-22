@@ -16,9 +16,13 @@ flowchart TD
     %%-----------------------------------------
     subgraph Phase_2 ["2. Risk Assessment Phase (Automated Filtering)"]
         direction TB
-        C["Policy Threshold & KPI Evaluation<br/><br/><b>Credit History Evaluation:</b><br/>• Credit Score: Benchmarked against historical data<br/>• Missed Payments: Frequency = risk profile<br/>• Default History: Multiple defaults = high-risk<br/>• Number of Enquiries: Monitors 'credit hungriness'<br/>• Vintage: Length of credit (longer = lower risk)<br/>• Delinquency Rate: Historical roll-overs (e.g., 30-60 DPD)<br/>• NPA Ratio: Measures critical risk level<br/><br/><b>Debt Burden & Income Evaluation:</b><br/>• Debt Burden: DTI ratio, monthly EMIs, credit utilization<br/>• Income: Verified for steady debt-servicing cash flow"]
+        C["Policy Threshold & KPI Evaluation"]
+        C_Hist["<b>Credit History Evaluation:</b><br/>• Credit Score: Benchmarked against historical data<br/>• Missed Payments: Frequency = risk profile<br/>• Default History: Multiple defaults = high-risk<br/>• Number of Enquiries: Monitors 'credit hungriness'<br/>• Vintage: Length of credit (longer = lower risk)<br/>• Delinquency Rate: Historical roll-overs (e.g., 30-60 DPD)<br/>• NPA Ratio: Measures critical risk level"]
+        C_Debt["<b>Debt Burden & Income Evaluation:</b><br/>• Debt Burden: DTI ratio, monthly EMIs, credit utilization<br/>• Income: Verified for steady debt-servicing cash flow"]
         
         B --> C
+        C --- C_Hist
+        C_Hist --- C_Debt
     end
 
     %%-----------------------------------------
@@ -31,7 +35,7 @@ flowchart TD
         E{"Risk Threshold Pass?"}
         F(["Application Rejected<br/>(Adverse action codes generated for regulatory disclosure)"])
         
-        C --> D
+        C_Debt --> D
         D --> E
         E -- "No" --> F
     end
@@ -89,7 +93,10 @@ flowchart TD
     %%-----------------------------------------
     subgraph Phase_7 ["7. Usage & Portfolio Management Phase (Active Lifecycle)"]
         direction TB
-        Q["Active Card Usage & Ongoing Revenue Generation<br/><b>Revenue:</b> Interchange Revenue (1.5-3%), Interest Income (NIM), Fee Income<br/><b>Costs:</b> Cost of Funds (CoF), Rewards & Loyalty Expense"]
+        Q["Active Card Usage & Ongoing Revenue Generation"]
+        Q_Rev["<b>Revenue Calculation:</b><br/>Interchange Revenue = Purchase volume x interchange rate<br/>Interest Income (NIM) = Avg. Outstanding Balance X NIM Rate<br/>Fee Income<br/>Total Revenue = Interchange Revenue + Interest Income + Fee Income"]
+        Q_Prof["<b>Profitability Calculation:</b><br/>Cost = Cost of Funds (CoF) + Rewards & Loyalty Expense + operational costs<br/>Profit = Total Revenue - Costs"]
+        
         R["Continuous Behavioral Scoring Engine<br/><b>Logic:</b> ML models track transactions, utilization, payment velocity dynamically<br/><b>KPIs:</b> Activation Rate (30/60/90 Days), Revolver Rate, Utilization Rate, Share of Wallet (SoW)"]
         
         S{"Portfolio Actions Decision Fork"}
@@ -98,7 +105,9 @@ flowchart TD
         V(["Case C: Retention & Cross-Sell<br/>Trigger: Low usage, high-value targeted with balance transfers/loans"])
         
         P --> Q
-        Q --> R
+        Q --- Q_Rev
+        Q_Rev --- Q_Prof
+        Q_Prof --> R
         R --> S
         S --> T
         S --> U
@@ -115,7 +124,7 @@ flowchart TD
         X["Mid-Stage Collections (31 to 90 DPD - Buckets 2 & 3)<br/><b>Strategy:</b> Direct human outreach, card temporarily blocked<br/><b>KPIs:</b> Roll Rates, Cure Rate, Right Party Connect (RPC) Rate"]
         Y["Late-Stage Collections (91 to 180 DPD)<br/><b>Strategy:</b> Aggressive negotiation, restructure plans, settlement waivers<br/><b>Financial Impact:</b> Classified as Non-Performing Asset (NPA)"]
         
-        Q -.-> DelinqTrigger
+        Q_Prof -.-> DelinqTrigger
         DelinqTrigger --> W
         W --> X
         X --> Y
@@ -134,7 +143,9 @@ flowchart TD
         AC(["Debt Sale<br/>Sell toxic asset bundle to distressed debt buyers (4 to 12 cents per dollar)"])
         AD(["Legal Action (Litigation)<br/>Reserved for high-balance accounts to legally garnish verifiable assets/income"])
         
-        AE["Ultimate Lifecycle End-State Metrics<br/>• <b>Recovery Rate (%)</b> = (Total Recovered Funds + Debt Sale Proceeds) / Gross Charge-Off Balance<br/>• <b>NCO Ratio (%)</b> = (Gross Charge-Offs - Recoveries) / Average Total Outstanding Portfolio Balance"]
+        AE["Ultimate Lifecycle End-State Metrics"]
+        AE_Rec["<b>Recovery Rate (%)</b> =<br/>(Total Recovered Funds + Debt Sale Proceeds) / Gross Charge-Off Balance"]
+        AE_NCO["<b>NCO Ratio (%)</b> =<br/>(Gross Charge-Offs - Recoveries) / Average Total Outstanding Portfolio Balance"]
         
         Y -.-> UncollectTrigger
         UncollectTrigger --> Z
@@ -146,6 +157,8 @@ flowchart TD
         AB --> AE
         AC --> AE
         AD --> AE
+        AE --- AE_Rec
+        AE_Rec --- AE_NCO
     end
 
     %% Styling configurations for visual distinction
@@ -159,4 +172,4 @@ flowchart TD
     class L approve;
     class M loop;
     class DelinqTrigger,UncollectTrigger alert;
-    class AE metrics;
+    class AE,AE_Rec,AE_NCO metrics;
