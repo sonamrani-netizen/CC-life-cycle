@@ -1,55 +1,51 @@
 graph TD
     %% Phase 1: Application & Data Gathering
-    Start((Start:<br>Customer Applies)) --> Docs["Submit Documents<br>- Name<br>- Address<br>- Income Details<br>- SSN"]
-    Docs --> BankRec["Bank Receives & Reviews Application"]
-    
-    BankRec --> DataSources{"Gather Customer Data"}
-    DataSources --> D1["Data Provided During Application"]
-    DataSources --> D2["Credit Bureaus Data<br>(TransUnion, Equifax, Experian, etc.)"]
-    DataSources --> D3["Internal Bank Data<br>(Prior relationships, if any)"]
-    
-    D1 & D2 & D3 --> Phase1
-    
+    subgraph Phase 1: Application & Data Gathering
+        A[Customer Applies for Credit Card] --> B[Submit Documents:<br/>Name, Address, Income, SSN]
+        B --> C[Bank Receives Application]
+        C --> D{Gather Data Sources}
+        D --> D1[(Application Data)]
+        D --> D2[(Credit Bureaus Data<br/>TransUnion, Equifax, etc.)]
+        D --> D3[(Internal Bank Data)]
+    end
+
     %% Phase 2: Risk Assessment
-    subgraph Risk Assessment Phase
-        Phase1["1. Policy Threshold & KPI Evaluation<br>(Automatic filtering before advanced modeling)"]
+    subgraph Phase 2: Risk Assessment & Modeling
+        D1 & D2 & D3 --> E[1. Policy Threshold & KPI Evaluation]
+        E --> E1[Credit History:<br/>Score, Missed Payments, Defaults,<br/>Enquiries, Vintage, Delinquency, NPA]
+        E --> E2[Debt Burden & Income:<br/>DTI, EMIs, Utilization, Cash Flow]
         
-        Phase1 --> CH["Credit History KPIs<br>• Credit Score: Benchmarked against historical data<br>• Missed Payments: Frequency correlates to higher risk<br>• Default History: Multiple failures = high risk<br>• Number of Enquiries: Recent hard inquiries (credit hungriness)<br>• Vintage: Length of credit relationship (longer = stable)<br>• Delinquency Rate: Rollover into higher past-due buckets<br>• NPA Ratio: Non-Performing Asset critical risk level"]
+        E1 & E2 --> F{Clears Initial<br/>Thresholds?}
+        F -- No --> Z[Reject Application]
         
-        Phase1 --> DB["Debt Burden & Income KPIs<br>• Debt Burden: DTI ratio, monthly EMIs, utilization ratios (avoid overleveraging)<br>• Income: Verified steady cash flow"]
+        F -- Yes --> G[2. Advanced Risk Modeling]
+        G --> G1[Calculate Scorecard &<br/>Probability of Default - PD]
         
-        CH & DB --> Gate1{"Pass Initial Policy Thresholds?"}
-        
-        Gate1 -- Yes --> Phase2["2. Advanced Risk Modeling<br>(Machine learning & statistical models)"]
-        Phase2 --> RM["Risk Models<br>(e.g., Application Scorecard)"]
-        RM --> PD["Calculate Probability of Default (PD)<br>Statistical likelihood customer will fail to repay"]
+        G1 --> H{Passes Risk<br/>Models?}
+        H -- No --> Z
     end
-    
-    Gate1 -- No --> Reject((Reject Application))
-    
+
     %% Phase 3: Financial Viability
-    PD --> Phase3
-    
-    subgraph Financial Viability: Revenue & Profitability
-        Phase3["Shift from Risk Assessment to Financial Modeling"] --> Step1
+    subgraph Phase 3: Financial Viability & Decision
+        H -- Yes --> I[Step 1: Determine Terms]
+        I --> I1[Assign Credit Limit<br/>Based on Income/Debt]
+        I --> I2[Assign APR<br/>Risk-Based Pricing via PD]
         
-        Step1["Step 1: Determine APR & Credit Limit<br>• Credit Limit: Based on Income, Debt Burden, Risk Tier<br>• APR Pricing: Risk-based pricing via PD & Credit Score"]
+        I1 & I2 --> J[Step 2: Calculate Expected Revenue<br/>Limit x Utilization x APR + Fees]
         
-        Step1 --> Step2["Step 2: Calculate Expected Revenue<br>Formula: (Limit × Expected Utilization × APR) + Fees"]
+        J --> K[Step 3: Calculate Profitability]
+        K --> K1[NRAR = Expected Revenue - Expected Loss]
+        K1 --> K2[Expected Profitability = NRAR - Operating Costs]
         
-        Step2 --> Step3["Step 3: Net Risk-Adjusted Revenue (NRAR) & Profitability<br>• NRAR = Expected Revenue - Expected Loss (driven by PD)<br>• Expected Profitability = NRAR - Operating Costs"]
+        K2 --> L{Step 4: Meets<br/>Hurdle Rate?}
+        
+        L -- Yes --> M[Approve Application:<br/>Offer Limit & APR]
+        L -- No --> N[Generate Counter-Offer:<br/>Lower Limit or Higher APR]
+        N -. Re-evaluate .- J
     end
     
-    Step3 --> Step4
-    
-    %% Phase 4: Decisioning
-    subgraph The Approval Decision
-        Step4{"Step 4: Evaluate Against Hurdle Rate<br>(Internal target profit margin)"}
-        
-        Step4 -- "Below Hurdle Rate" --> Counter["Counter-Offer Routed<br>Lower credit limit or higher APR to force profitability"]
-        Step4 -- "Above Hurdle Rate" --> Approve((Approve Application:<br>Offer Formal Limit & APR))
-    end
-    
-    %% Loops & Endings
-    Counter -. "Re-evaluate profitability" .-> Step1
-    Approve --> Step5["3. For Approved Applications...<br>(Proceed to Issuance & Onboarding)"]
+    %% Styling
+    classDef reject fill:#ffe6e6,stroke:#ff0000,stroke-width:2px;
+    classDef approve fill:#e6ffe6,stroke:#008000,stroke-width:2px;
+    class Z reject;
+    class M approve;
