@@ -90,12 +90,7 @@ flowchart TD
     subgraph Phase_7 ["7. Usage & Portfolio Management Phase (Active Lifecycle)"]
         direction TB
         Q["Active Card Usage & Ongoing Revenue Generation<br/><b>Revenue Calculation:</b>
-Interchange Revenue  = Purchase volume x i nterchange rate <br/>
-<br>Interest Income (NIM) = Avg. Outstanding Balance X NIM RAte <br/>
-<br> Fee Income<br/> <br> Total Revenue = Interchange Revenue + Interest Income + Fee Income <br/>
-<br>Profitability Calculation:</b>
-<br> Cost = Cost of Funds (CoF) + Rewards & Loyalty Expense + operational costs<br/>
-<br> Profit = Total Revenue - Costs <br/>]
+Interchange Revenue  = Purchase volume x i nterchange rate <br/><br>Interest Income (NIM) = Avg. Outstanding Balance X NIM RAte <br/><br> Fee Income<br/> <br> Total Revenue = Interchange Revenue + Interest Income + Fee Income <br/><br>Profitability Calculation:</b><br> Cost = Cost of Funds (CoF) + Rewards & Loyalty Expense + operational costs<br/><br> Profit = Total Revenue - Costs <br/>]
         R["Continuous Behavioral Scoring Engine<br/><b>Logic:</b> ML models track transactions, utilization, payment velocity dynamically<br/><b>KPIs:</b> Activation Rate (30/60/90 Days), Revolver Rate, Utilization Rate, Share of Wallet (SoW)"]
         
         S{"Portfolio Actions Decision Fork"}
