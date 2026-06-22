@@ -1,40 +1,33 @@
-```mermaid
 graph TD
-    subgraph P1 [Phase 1: Application Data]
-        A[Customer Applies] --> B[Submit Documents]
-        B --> C[Bank Receives Application]
-        C --> D{Gather Data}
-        D --> D1[Application Data]
-        D --> D2[Credit Bureaus]
-        D --> D3[Internal Bank Data]
-    end
+    classDef phase fill:#f9f9f9,stroke:#333,stroke-width:2px,font-weight:bold;
+    classDef reject fill:#ffebee,stroke:#c62828,stroke-width:2px;
+    classDef approve fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef decision fill:#fff3e0,stroke:#ef6c00,stroke-width:2px;
 
-    subgraph P2 [Phase 2: Risk Assessment]
-        D1 --> E[Policy Threshold Evaluation]
-        D2 --> E
-        D3 --> E
-        E --> E1[Credit Check]
-        E --> E2[Debt Burden Check]
-        E1 --> F{Clears Thresholds?}
-        E2 --> F
-        F -- No --> Z[REJECT APPLICATION]
-        F -- Yes --> G[Advanced Risk Modeling]
-        G --> G1[Calculate Scorecard and PD]
-        G1 --> H{Passes Models?}
-        H -- No --> Z
-    end
+    %% Phase 1: Intake
+    A[Customer Submits Application<br/>Name, Address, Income, SSN] --> B[Bank Receives Application]
+    B --> C[Data Aggregation<br/>App Data, Bureau Data, Internal Data]
 
-    subgraph P3 [Phase 3: Financial Viability]
-        H -- Yes --> I[Determine Terms]
-        I --> I1[Assign Credit Limit]
-        I --> I2[Assign APR]
-        I1 --> J[Expected Revenue Calculation]
-        I2 --> J
-        J --> K[Calculate Profitability]
-        K --> K1[Expected Revenue minus Expected Loss]
-        K1 --> K2[NRAR minus Operating Costs]
-        K2 --> L{Meets Hurdle Rate?}
-        L -- Yes --> M[APPROVE APPLICATION]
-        L -- No --> N[COUNTER OFFER]
-        N -.-> J
-    end
+    %% Phase 2 & 3: Risk Assessment & Modeling
+    C --> D[Risk Assessment: KPI Evaluation<br/>Credit Score, Delinquency, DTI, etc.]
+    D --> E[Advanced Risk Modeling Engine<br/>Calculates Probability of Default]
+    
+    %% Decision Fork 1
+    E --> F{Risk Threshold Pass?} ::: decision
+    F -- No --> G[Application Rejected] ::: reject
+    
+    %% Phase 4: Financial Viability
+    F -- Yes --> H[Financial Viability Phase]
+    H --> I[Step 1: Determine APR & Credit Limit]
+    I --> J[Step 2: Calculate Expected Revenue]
+    J --> K[Step 3: Calculate NRAR & Expected Profitability]
+    
+    %% Decision Fork 2
+    K --> L{Profitability &ge; Hurdle Rate?} ::: decision
+    L -- Yes --> M[Application Approved<br/>Offer Calculated Limit & APR] ::: approve
+    M --> N[Move to Approved Applications Workflow] ::: approve
+    
+    %% Counter-Offer Loop
+    L -- No --> O[Route for Counter-Offer]
+    O --> P[Adjust Variables<br/>Lower Credit Limit or Higher APR]
+    P -. Recalculate .-> I
