@@ -1,51 +1,57 @@
 graph TD
-    %% Phase 1: Application & Data Gathering
-    subgraph Phase 1: Application & Data Gathering
-        A[Customer Applies for Credit Card] --> B[Submit Documents:<br/>Name, Address, Income, SSN]
+    %% Phase 1: Application and Data Gathering
+    subgraph Phase1 [Phase 1: Application and Data Gathering]
+        A[Customer Applies for Credit Card] --> B["Submit Documents: Name, Address, Income, SSN"]
         B --> C[Bank Receives Application]
         C --> D{Gather Data Sources}
         D --> D1[(Application Data)]
-        D --> D2[(Credit Bureaus Data<br/>TransUnion, Equifax, etc.)]
+        D --> D2[("Credit Bureaus (TransUnion, Equifax)")]
         D --> D3[(Internal Bank Data)]
     end
 
     %% Phase 2: Risk Assessment
-    subgraph Phase 2: Risk Assessment & Modeling
-        D1 & D2 & D3 --> E[1. Policy Threshold & KPI Evaluation]
-        E --> E1[Credit History:<br/>Score, Missed Payments, Defaults,<br/>Enquiries, Vintage, Delinquency, NPA]
-        E --> E2[Debt Burden & Income:<br/>DTI, EMIs, Utilization, Cash Flow]
+    subgraph Phase2 [Phase 2: Risk Assessment and Modeling]
+        D1 --> E[1. Policy Threshold and KPI Evaluation]
+        D2 --> E
+        D3 --> E
         
-        E1 & E2 --> F{Clears Initial<br/>Thresholds?}
-        F -- No --> Z[Reject Application]
+        E --> E1["Credit History: Score, Missed, Defaults, Enquiries, Vintage"]
+        E --> E2["Debt Burden: DTI, EMIs, Utilization, Cash Flow"]
         
-        F -- Yes --> G[2. Advanced Risk Modeling]
-        G --> G1[Calculate Scorecard &<br/>Probability of Default - PD]
+        E1 --> F{Clears Initial Thresholds?}
+        E2 --> F
         
-        G1 --> H{Passes Risk<br/>Models?}
-        H -- No --> Z
+        F -- "No" --> Z[Reject Application]
+        
+        F -- "Yes" --> G[2. Advanced Risk Modeling]
+        G --> G1["Calculate Scorecard and PD (Probability of Default)"]
+        
+        G1 --> H{Passes Risk Models?}
+        H -- "No" --> Z
     end
 
     %% Phase 3: Financial Viability
-    subgraph Phase 3: Financial Viability & Decision
-        H -- Yes --> I[Step 1: Determine Terms]
-        I --> I1[Assign Credit Limit<br/>Based on Income/Debt]
-        I --> I2[Assign APR<br/>Risk-Based Pricing via PD]
+    subgraph Phase3 [Phase 3: Financial Viability and Decision]
+        H -- "Yes" --> I[Step 1: Determine Terms]
+        I --> I1[Assign Credit Limit via Income/Debt]
+        I --> I2[Assign APR via Risk-Based PD Pricing]
         
-        I1 & I2 --> J[Step 2: Calculate Expected Revenue<br/>Limit x Utilization x APR + Fees]
+        I1 --> J["Step 2: Expected Revenue (Limit x Utilization x APR + Fees)"]
+        I2 --> J
         
         J --> K[Step 3: Calculate Profitability]
-        K --> K1[NRAR = Expected Revenue - Expected Loss]
-        K1 --> K2[Expected Profitability = NRAR - Operating Costs]
+        K --> K1["NRAR = Expected Revenue - Expected Loss"]
+        K1 --> K2["Expected Profitability = NRAR - Operating Costs"]
         
-        K2 --> L{Step 4: Meets<br/>Hurdle Rate?}
+        K2 --> L{Meets Hurdle Rate?}
         
-        L -- Yes --> M[Approve Application:<br/>Offer Limit & APR]
-        L -- No --> N[Generate Counter-Offer:<br/>Lower Limit or Higher APR]
-        N -. Re-evaluate .- J
+        L -- "Yes" --> M["APPROVE: Offer Limit and APR"]
+        L -- "No" --> N["COUNTER-OFFER: Lower Limit or Higher APR"]
+        N -. "Re-evaluate" .-> J
     end
     
-    %% Styling
-    classDef reject fill:#ffe6e6,stroke:#ff0000,stroke-width:2px;
-    classDef approve fill:#e6ffe6,stroke:#008000,stroke-width:2px;
+    %% Styling safely explicitly mapped for Dark/Light mode overrides
+    classDef reject fill:#ffe6e6,stroke:#ff0000,stroke-width:2px,color:#990000;
+    classDef approve fill:#e6ffe6,stroke:#008000,stroke-width:2px,color:#006600;
     class Z reject;
     class M approve;
