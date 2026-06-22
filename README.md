@@ -271,7 +271,7 @@ flowchart TD
     %%-----------------------------------------
     
     %% Base workflow states
-    classDef reject fill:#ffcdd2,stroke:#d32f2f,stroke-width:2px;
+    classDef reject fill:#DB5858,stroke:#d32f2f,stroke-width:2px;
     classDef approve fill:#c8e6c9,stroke:#388e3c,stroke-width:2px;
     classDef loop fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
     classDef alert fill:#ffe0b2,stroke:#f57c00,stroke-width:2px;
