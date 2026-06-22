@@ -275,7 +275,7 @@ flowchart TD
     classDef approve fill:#5fa462,stroke:#388e3c,stroke-width:2px;
     classDef loop fill:#766a00,stroke:#fbc02d,stroke-width:2px;
     classDef alert fill:#433c00,stroke:#f57c00,stroke-width:2px;
-    classDef metrics fill:#e1bee7,stroke:#8e24aa,stroke-width:2px;
+    classDef metrics fill:#54225d,stroke:#8e24aa,stroke-width:2px;
     
     %% Base Node Box styling
     classDef default fill:#636363,stroke:#333,stroke-width:1px;
