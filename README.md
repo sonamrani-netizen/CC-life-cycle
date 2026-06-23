@@ -1,5 +1,4 @@
 ``` mermaid
-
 flowchart TD
     %%-----------------------------------------
     %% Phase 1: Application Intake Phase
@@ -8,7 +7,7 @@ flowchart TD
         direction TB
         
         subgraph P1_S1 ["Customer Submission"]
-            A1["<b>Captured Data:</b><br/>Name, Address,<br/>Income details, SSN"]
+            A1["<b>Captured Data:</b><br/>Name, Address, SSN<br/>Income details"]
         end
         
         subgraph P1_S2 ["Data Aggregation (Ingested from 3 Sources)"]
@@ -81,7 +80,7 @@ flowchart TD
             G1["• <b>Credit Limit:</b><br/>Based on Income, Debt<br/>Burden, risk tier"]
             G2["<i>Rule: Higher income<br/>+ lower debt<br/>= higher limit</i>"]
             G3["• <b>APR Pricing:</b><br/>Risk-based using<br/>PD & Credit Score"]
-            G4["<i>Rule: Lower-risk<br/>= lower APR | Higher<br/>-risk = higher APR</i>"]
+            G4["<i>Rule: Lower-risk =<br/>lower APR | Higher-risk<br/>= higher APR</i>"]
             G1 --- G2 --- G3 --- G4
         end
         
@@ -261,37 +260,37 @@ flowchart TD
         direction TB
         
         subgraph P10_S1 ["Immediate Operational Actions"]
-            R_O1["• Adverse Action Stamping:<br/>Log regulatory decline reasons"]
-            R_O2["• Cooling-Off Flagging:<br/>3-6 month master DB hard block"]
+            R_O1["• Adverse Action Stamping:<br/>Log regulatory<br/>decline reasons"]
+            R_O2["• Cooling-Off Flagging:<br/>3-6 month master DB<br/>hard block"]
             R_O1 --- R_O2
         end
         
         subgraph P10_S2 ["System Fault Correction Lifecycle"]
             R_E1{"System Error<br/>Detected?"}
-            R_E2["• Retro-Approval Workflow:<br/>Isolate cohort & clear block"]
-            R_E3["• Force Card Issuance & Onboard"]
-            R_E4["• Bureau Inquiry Repair:<br/>Delete hard pull flag"]
+            R_E2["• Retro-Approval Workflow:<br/>Isolate cohort<br/>& clear block"]
+            R_E3["• Force Card<br/>Issuance<br/>& Onboard"]
+            R_E4["• Bureau Inquiry Repair:<br/>Delete hard<br/>pull flag"]
             R_E1 -- "Yes" --> R_E2
             R_E2 --> R_E3 --> R_E4
         end
         
         subgraph P10_S3 ["Data Science (Reject Inference)"]
-            R_D1["• Fuzzy Augmentation:<br/>Assign calculated default prob"]
-            R_D2["• Parceling:<br/>Blend 'inferred goods' into training DB"]
-            R_D3["• Override Audits:<br/>Profile human exception performance"]
+            R_D1["• Fuzzy Augmentation:<br/>Assign calculated<br/>default prob"]
+            R_D2["• Parceling:<br/>Blend 'inferred goods'<br/>into training DB"]
+            R_D3["• Override Audits:<br/>Profile human<br/>exception performance"]
             R_D1 --- R_D2 --- R_D3
         end
         
         subgraph P10_S4 ["Opportunity Cost Modeling"]
-            R_F1["• Expected LTV Simulation:<br/>Weigh lost margin against EL"]
-            R_F2["• RAROC Adjustment:<br/>Evaluate loosening scorecard cutoff"]
+            R_F1["• Expected LTV Simulation:<br/>Weigh lost margin<br/>against EL"]
+            R_F2["• RAROC Adjustment:<br/>Evaluate loosening<br/>scorecard cutoff"]
             R_F1 --> R_F2
         end
         
         subgraph P10_S5 ["CRO Executive Tracking Dashboard"]
-            R_K1["• Decline Rate by Channel"]
-            R_K2["• Through-the-Door Score"]
-            R_K3["• Adverse Action Density & PSI"]
+            R_K1["• Decline Rate<br/>by<br/>Channel"]
+            R_K2["• Through-the-Door<br/>Metric<br/>Score"]
+            R_K3["• Adverse Action<br/>Density<br/>& PSI"]
             R_K1 --- R_K2 --- R_K3
         end
 
