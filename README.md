@@ -1,5 +1,6 @@
 ``` mermaid
-flowchart TD
+
+ flowchart TD
     %%-----------------------------------------
     %% Phase 1: Application Intake Phase
     %%-----------------------------------------
@@ -202,35 +203,7 @@ flowchart TD
     %%-----------------------------------------
     subgraph Phase_9 ["9. Charge-Off & Recovery Phase"]
         direction TB
-        UncollectTrigger(["Trigger: Reaches<br/>180 DPD without<br/>a successful cure"])
-        
-        subgraph P9_S1 ["Charge-Off & Technical Write-Off"]
-            Z1["<b>Action:</b> Bank writes<br/>off outstanding principal<br/>as bad debt loss"]
-            Z2["<b>Impact:</b> Net Profit =<br/>- (Gross Charge-Off +<br/>Operational Coll Exp)"]
-            Z1 --- Z2
-        end
-        
-        subgraph P9_S2 ["Recovery Strategy Decision Fork"]
-            AA{"Recovery<br/>Fork"}
-            AB1(["Agency Recovery:<br/>Outsource to 3rd-party<br/>(keeps 15–30%)"])
-            AC1(["Debt Sale:<br/>Sell toxic bundle<br/>(4-12 cents per $)"])
-            AD1(["Legal Action:<br/>Reserved for high-bal<br/>garnish assets/income"])
-            AA --> AB1
-            AA --> AC1
-            AA --> AD1
-        end
-        
-        subgraph P9_S3 ["Ultimate Lifecycle End-State Metrics"]
-            AE1["• <b>Recovery Rate</b> =<br/>(Total Recov + Sale)<br/>/ Gross Charge-Off"]
-            AE2["• <b>NCO Ratio (%)</b> =<br/>(Charge-Offs - Recov)<br/>/ Avg Total Outstanding"]
-            AE1 --- AE2
-        end
-        
-        UncollectTrigger --> Z1
-        Z2 --> AA
-        AB1 --> AE1
-        AC1 --> AE1
-        AD1 --> AE1
+        P9_Node["Charge-Off & Recovery Phase"]
     end
 
     %%-----------------------------------------
@@ -290,7 +263,7 @@ flowchart TD
     L --> P6_Node
     P6_Node --> Q2
     Q8 -.-> DelinqTrigger
-    Y2 -.-> UncollectTrigger
+    Y2 -.-> P9_Node
     F --> R_O1
     R_E3 --> L
 
@@ -312,5 +285,5 @@ flowchart TD
     class F reject;
     class L,R_E3 approve;
     class M1 loop;
-    class DelinqTrigger,UncollectTrigger alert;
-    class AE1,AE2,R_K1,R_K2,R_K3 metrics;
+    class DelinqTrigger alert;
+    class R_K1,R_K2,R_K3 metrics;
