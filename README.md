@@ -126,11 +126,7 @@ flowchart TD
     %%-----------------------------------------
     subgraph Phase_6 ["6. Onboarding & Card Issuance Phase"]
         direction TB
-        
-        
-        
-        N2 --> O1
-        O1 --> P1
+        P6_Node["Onboarding & Card Issuance Phase"]
     end
 
     %%-----------------------------------------
@@ -294,8 +290,8 @@ flowchart TD
     E -- "Yes" --> G1
     M1 -- "Loop back to recalculate metrics" --> G1
     I2 --> J
-    L --> N1
-    P3 --> Q2
+    L --> P6_Node
+    P6_Node --> Q2
     Q8 -.-> DelinqTrigger
     Y2 -.-> UncollectTrigger
     F1 --> R_O1
