@@ -1,4 +1,3 @@
-``` mermaid
 flowchart TD
     %%-----------------------------------------
     %% Phase 1: Application Intake Phase
@@ -63,6 +62,8 @@ flowchart TD
         E{"Risk Threshold<br/>Pass?"}
         
         F(["Application<br/>Rejected"])
+        F1(["(Adverse action codes<br/>generated for<br/>regulatory disclosure)"])
+        F --- F1
         
         D2 --> E
         E -- "No" --> F
@@ -120,42 +121,29 @@ flowchart TD
     end
 
     %%-----------------------------------------
-    %% Phase 6: Post-Decision (Onboarding & Rejection Pipelines)
+    %% Phase 6: Onboarding & Card Issuance Phase
     %%-----------------------------------------
-    subgraph Phase_6 ["6. Post-Decision Pipelines Phase"]
+    subgraph Phase_6 ["6. Onboarding & Card Issuance Phase"]
         direction TB
         
-        %% --- APPROVED PIPELINE ---
-        subgraph P6_Approved ["6.1 Approved Pipeline: Onboarding & Issuance"]
-            direction TB
-            subgraph P6_S1 ["KYC & AML Verification"]
-                N1["<b>Actions:</b> Watchlist<br/>compliance (PEP, Sanctions)<br/>& identity verification"]
-                N2["<b>KPIs:</b> False<br/>Positive Rate,<br/>Onboarding Drop-off"]
-                N1 --- N2
-            end
-            
-            subgraph P6_S2 ["Core Banking Account Creation"]
-                O1["<b>Actions:</b> Generate<br/>unique PAN, allocate<br/>credit line, ledger setup"]
-            end
-            
-            subgraph P6_S3 ["Physical & Digital Card Issuance"]
-                P1["<b>Actions:</b> Provision<br/>virtual card to wallets,<br/>print/ship physical card"]
-                P3["<b>Financial Impact:</b><br/>KYC Vendor Fees + Card<br/>Production & Shipping"]
-                P1 --- P3
-            end
-            N2 --> O1
-            O1 --> P1
-        end
-
-        %% --- DECLINED PIPELINE ---
-        subgraph P6_Declined ["6.2 Declined Pipeline: Rejection Analysis & Fate"]
-            direction TB
-            R1["<b>1. Regulatory Disclosure:</b><br/>Auto-generate Adverse Action<br/>Notice w/ Reason Codes"]
-            R2["<b>2. Post-Mortem Analysis:</b><br/>Ghost Portfolio Tracking,<br/>Swap-Set & Adverse Selection"]
-            R3["<b>3. Downstream Fate:</b><br/>Add to Nurture Campaign<br/>for credit-building education"]
-            R1 --> R2 --> R3
+        subgraph P6_S1 ["KYC & AML Verification"]
+            N1["<b>Actions:</b> Watchlist<br/>compliance (PEP, Sanctions)<br/>& identity verification"]
+            N2["<b>KPIs:</b> False<br/>Positive Rate,<br/>Onboarding Drop-off"]
+            N1 --- N2
         end
         
+        subgraph P6_S2 ["Core Banking Account Creation"]
+            O1["<b>Actions:</b> Generate<br/>unique PAN, allocate<br/>credit line, ledger setup"]
+        end
+        
+        subgraph P6_S3 ["Physical & Digital Card Issuance"]
+            P1["<b>Actions:</b> Provision<br/>virtual card to wallets,<br/>print/ship physical card"]
+            P3["<b>Financial Impact:</b><br/>KYC Vendor Fees + Card<br/>Production & Shipping"]
+            P1 --- P3
+        end
+        
+        N2 --> O1
+        O1 --> P1
     end
 
     %%-----------------------------------------
@@ -178,24 +166,24 @@ flowchart TD
         end
         
         subgraph P7_S3 ["Continuous Behavioral Scoring"]
-            S1["<b>Logic:</b> ML models track<br/>txns, utilization,<br/>payment velocity"]
-            S2["<b>KPIs:</b> Activation Rate,<br/>Revolver Rate,<br/>Utilization Rate, SoW"]
-            S1 --- S2
+            R1["<b>Logic:</b> ML models track<br/>txns, utilization,<br/>payment velocity"]
+            R2["<b>KPIs:</b> Activation Rate,<br/>Revolver Rate,<br/>Utilization Rate, SoW"]
+            R1 --- R2
         end
         
         subgraph P7_S4 ["Portfolio Actions Decision"]
-            T_Fork{"Action<br/>Fork"}
+            S{"Action<br/>Fork"}
             T1(["Case A: CLI<br/>Optimal Score,<br/>high/safe utilization"])
             U1(["Case B: CLD / Block<br/>Early warning indicators<br/>(maxing limits, min pay)"])
             V1(["Case C: Retention<br/>Low usage, high-value<br/>balance transfers/loans"])
-            T_Fork --> T1
-            T_Fork --> U1
-            T_Fork --> V1
+            S --> T1
+            S --> U1
+            S --> V1
         end
         
         Q5 --> Q7
-        Q8 --> S1
-        S2 --> T_Fork
+        Q8 --> R1
+        R2 --> S
     end
 
     %%-----------------------------------------
@@ -272,14 +260,8 @@ flowchart TD
     E -- "Yes" --> G1
     M1 -- "Loop back to recalculate metrics" --> G1
     I2 --> J
-    
-    %% Connections into Phase 6
     L --> N1
-    F --> R1
-    
-    %% Connections out of Phase 6
     P3 --> Q2
-    
     Q8 -.-> DelinqTrigger
     Y2 -.-> UncollectTrigger
 
@@ -293,15 +275,13 @@ flowchart TD
     classDef loop fill:#766a00,stroke:#fbc02d,stroke-width:2px;
     classDef alert fill:#c4b000,stroke:#ebd300,stroke-width:2px;
     classDef metrics fill:#54225d,stroke:#8e24aa,stroke-width:2px;
-    classDef analysis fill:#4287f5,stroke:#1565c0,stroke-width:2px,color:#fff;
     
     %% Base Node Box styling
-    classDef default fill:#636363,stroke:#333,stroke-width:1px,color:#fff;
+    classDef default fill:#636363,stroke:#333,stroke-width:1px;
 
     %% Apply Status Classes
-    class F,R1 reject;
+    class F,F1 reject;
     class L approve;
     class M1 loop;
     class DelinqTrigger,UncollectTrigger alert;
     class AE1,AE2 metrics;
-    class R2,R3 analysis;
