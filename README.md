@@ -56,7 +56,7 @@ flowchart TD
         
         subgraph P3_S1 ["Advanced Risk Modeling Engine"]
             D1["• <b>Risk Models:</b><br/>Internal ML models<br/>calculate custom score"]
-            D2["• <b>Output:</b><br/>Calculates Prob of<br/>Default (PD) timeframe"]
+            D2["• <br/>Calculates Prob of<br/>Default (PD)"]
             D1 --- D2
         end
         
