@@ -1,3 +1,4 @@
+``` mermaid
 flowchart TD
     %%-----------------------------------------
     %% Phase 1: Application Intake Phase
