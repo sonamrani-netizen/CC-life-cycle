@@ -249,9 +249,8 @@ flowchart TD
             R_E1{"System Error<br/>Detected?"}
             R_E2["• Retro-Approval Workflow:<br/>Isolate cohort<br/>& clear block"]
             R_E3["• Force Card<br/>Issuance<br/>& Onboard"]
-            R_E4["• Bureau Inquiry Repair:<br/>Delete hard<br/>pull flag"]
             R_E1 -- "Yes" --> R_E2
-            R_E2 --> R_E3 --> R_E4
+            R_E2 --> R_E3
         end
         
         subgraph P10_S3 ["Data Science (Reject Inference)"]
@@ -293,7 +292,7 @@ flowchart TD
     Q8 -.-> DelinqTrigger
     Y2 -.-> UncollectTrigger
     F --> R_O1
-    R_E4 --> L
+    R_E3 --> L
 
     %%-----------------------------------------
     %% Theme & Styling Colors
