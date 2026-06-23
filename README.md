@@ -63,8 +63,6 @@ flowchart TD
         E{"Risk Threshold<br/>Pass?"}
         
         F(["Application<br/>Rejected"])
-        F1(["(Adverse action codes<br/>generated for<br/>regulatory disclosure)"])
-        F --- F1
         
         D2 --> E
         E -- "No" --> F
@@ -294,7 +292,7 @@ flowchart TD
     P6_Node --> Q2
     Q8 -.-> DelinqTrigger
     Y2 -.-> UncollectTrigger
-    F1 --> R_O1
+    F --> R_O1
     R_E4 --> L
 
     %%-----------------------------------------
@@ -312,7 +310,7 @@ flowchart TD
     classDef default fill:#636363,stroke:#333,stroke-width:1px;
 
     %% Apply Status Classes
-    class F,F1 reject;
+    class F reject;
     class L,R_E3 approve;
     class M1 loop;
     class DelinqTrigger,UncollectTrigger alert;
