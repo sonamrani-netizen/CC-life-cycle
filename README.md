@@ -283,8 +283,6 @@ flowchart TD
         
         subgraph P10_S4 ["Opportunity Cost Modeling"]
             R_F1["• Expected LTV Simulation:<br/>Weigh lost margin<br/>against EL"]
-            R_F2["• RAROC Adjustment:<br/>Evaluate loosening<br/>scorecard cutoff"]
-            R_F1 --> R_F2
         end
         
         subgraph P10_S5 ["CRO Executive Tracking Dashboard"]
