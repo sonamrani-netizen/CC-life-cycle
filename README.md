@@ -1,4 +1,5 @@
 ``` mermaid
+
 flowchart TD
     %%-----------------------------------------
     %% Phase 1: Application Intake Phase
@@ -254,6 +255,53 @@ flowchart TD
     end
 
     %%-----------------------------------------
+    %% Phase 10: Post-Rejection Workflow & Data Lab
+    %%-----------------------------------------
+    subgraph Phase_10 ["10. Post-Rejection Workflow & Data Lab"]
+        direction TB
+        
+        subgraph P10_S1 ["Immediate Operational Actions"]
+            R_O1["• Adverse Action Stamping:<br/>Log regulatory decline reasons"]
+            R_O2["• Cooling-Off Flagging:<br/>3-6 month master DB hard block"]
+            R_O1 --- R_O2
+        end
+        
+        subgraph P10_S2 ["System Fault Correction Lifecycle"]
+            R_E1{"System Error<br/>Detected?"}
+            R_E2["• Retro-Approval Workflow:<br/>Isolate cohort & clear block"]
+            R_E3["• Force Card Issuance & Onboard"]
+            R_E4["• Bureau Inquiry Repair:<br/>Delete hard pull flag"]
+            R_E1 -- "Yes" --> R_E2
+            R_E2 --> R_E3 --> R_E4
+        end
+        
+        subgraph P10_S3 ["Data Science (Reject Inference)"]
+            R_D1["• Fuzzy Augmentation:<br/>Assign calculated default prob"]
+            R_D2["• Parceling:<br/>Blend 'inferred goods' into training DB"]
+            R_D3["• Override Audits:<br/>Profile human exception performance"]
+            R_D1 --- R_D2 --- R_D3
+        end
+        
+        subgraph P10_S4 ["Opportunity Cost Modeling"]
+            R_F1["• Expected LTV Simulation:<br/>Weigh lost margin against EL"]
+            R_F2["• RAROC Adjustment:<br/>Evaluate loosening scorecard cutoff"]
+            R_F1 --> R_F2
+        end
+        
+        subgraph P10_S5 ["CRO Executive Tracking Dashboard"]
+            R_K1["• Decline Rate by Channel"]
+            R_K2["• Through-the-Door Score"]
+            R_K3["• Adverse Action Density & PSI"]
+            R_K1 --- R_K2 --- R_K3
+        end
+
+        R_O2 --> R_E1
+        R_E1 -- "No" --> R_D1
+        R_D3 --> R_F1
+        R_F2 --> R_K1
+    end
+
+    %%-----------------------------------------
     %% Inter-Phase Connections
     %%-----------------------------------------
     B4 --> C
@@ -265,6 +313,8 @@ flowchart TD
     P3 --> Q2
     Q8 -.-> DelinqTrigger
     Y2 -.-> UncollectTrigger
+    F1 --> R_O1
+    R_E4 --> L
 
     %%-----------------------------------------
     %% Theme & Styling Colors
@@ -282,7 +332,7 @@ flowchart TD
 
     %% Apply Status Classes
     class F,F1 reject;
-    class L approve;
+    class L,R_E3 approve;
     class M1 loop;
     class DelinqTrigger,UncollectTrigger alert;
-    class AE1,AE2 metrics;
+    class AE1,AE2,R_K1,R_K2,R_K3 metrics;
