@@ -125,26 +125,6 @@ flowchart TD
     %% Phase 6: Onboarding & Card Issuance Phase
     %%-----------------------------------------
     subgraph Phase_6 ["6. Onboarding & Card Issuance Phase"]
-        direction TB
-        
-        subgraph P6_S1 ["KYC & AML Verification"]
-            N1["<b>Actions:</b> Watchlist<br/>compliance (PEP, Sanctions)<br/>& identity verification"]
-            N2["<b>KPIs:</b> False<br/>Positive Rate,<br/>Onboarding Drop-off"]
-            N1 --- N2
-        end
-        
-        subgraph P6_S2 ["Core Banking Account Creation"]
-            O1["<b>Actions:</b> Generate<br/>unique PAN, allocate<br/>credit line, ledger setup"]
-        end
-        
-        subgraph P6_S3 ["Physical & Digital Card Issuance"]
-            P1["<b>Actions:</b> Provision<br/>virtual card to wallets,<br/>print/ship physical card"]
-            P3["<b>Financial Impact:</b><br/>KYC Vendor Fees + Card<br/>Production & Shipping"]
-            P1 --- P3
-        end
-        
-        N2 --> O1
-        O1 --> P1
     end
 
     %%-----------------------------------------
